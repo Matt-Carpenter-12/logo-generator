@@ -22,47 +22,54 @@ function generateSVG(text, textColor, shape, shapeColor) {
 </svg>`;
 }
 
-// Define questions for user input
-const questions = [
-  {
-    type: "input",
-    name: "text",
-    message: "Enter up to three characters for the text:",
-    validate: (input) =>
-      input.length <= 3 ? true : "Text must be up to three characters long.",
-  },
-  {
-    type: "input",
-    name: "textColor",
-    message: "Enter the text color (keyword or hexadecimal):",
-    validate: (input) =>
-      /^#[0-9A-Fa-f]{6}$|^[a-zA-Z]+$/.test(input)
-        ? true
-        : "Enter a valid color keyword or hexadecimal.",
-  },
-  {
-    type: "list",
-    name: "shape",
-    message: "Choose a shape:",
-    choices: ["circle", "triangle", "square"],
-  },
-  {
-    type: "input",
-    name: "shapeColor",
-    message: "Enter the shape color (keyword or hexadecimal):",
-    validate: (input) =>
-      /^#[0-9A-Fa-f]{6}$|^[a-zA-Z]+$/.test(input)
-        ? true
-        : "Enter a valid color keyword or hexadecimal.",
-  },
-];
+// Function to handle user input and generate SVG file
+async function promptUser() {
+  const questions = [
+    {
+      type: "input",
+      name: "text",
+      message: "Enter up to three characters for the text:",
+      validate: (input) =>
+        input.length <= 3 ? true : "Text must be up to three characters long.",
+    },
+    {
+      type: "input",
+      name: "textColor",
+      message: "Enter the text color (keyword or hexadecimal):",
+      validate: (input) =>
+        /^#[0-9A-Fa-f]{6}$|^[a-zA-Z]+$/.test(input)
+          ? true
+          : "Enter a valid color keyword or hexadecimal.",
+    },
+    {
+      type: "list",
+      name: "shape",
+      message: "Choose a shape:",
+      choices: ["circle", "triangle", "square"],
+    },
+    {
+      type: "input",
+      name: "shapeColor",
+      message: "Enter the shape color (keyword or hexadecimal):",
+      validate: (input) =>
+        /^#[0-9A-Fa-f]{6}$|^[a-zA-Z]+$/.test(input)
+          ? true
+          : "Enter a valid color keyword or hexadecimal.",
+    },
+  ];
 
-// Prompt user for input and generate SVG file
-inquirer.prompt(questions).then((answers) => {
+  const answers = await inquirer.prompt(questions);
   const { text, textColor, shape, shapeColor } = answers;
   const svgContent = generateSVG(text, textColor, shape, shapeColor);
 
   fs.writeFileSync("logo.svg", svgContent, "utf8");
   console.log("Generated logo.svg");
-});
-module.exports = { generateSVG };
+}
+
+// Export for testing
+module.exports = { generateSVG, promptUser };
+
+// Execute the prompt function if this file is run directly
+if (require.main === module) {
+  promptUser();
+}
