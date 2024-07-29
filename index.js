@@ -1,5 +1,5 @@
-const fs = require("fs");
-const inquirer = require("inquirer");
+const fs = require("fs")
+const inquirer = require("inquirer")
 
 // Function to generate SVG content
 function generateSVG(text, textColor, shape, shapeColor) {
@@ -58,12 +58,17 @@ async function promptUser() {
     },
   ];
 
-  const answers = await inquirer.prompt(questions);
-  const { text, textColor, shape, shapeColor } = answers;
-  const svgContent = generateSVG(text, textColor, shape, shapeColor);
+  // Use try-catch to handle potential errors
+  try {
+    const answers = await inquirer.prompt(questions);
+    const { text, textColor, shape, shapeColor } = answers;
+    const svgContent = generateSVG(text, textColor, shape, shapeColor);
 
-  fs.writeFileSync("logo.svg", svgContent, "utf8");
-  console.log("Generated logo.svg");
+    fs.writeFileSync("logo.svg", svgContent, "utf8");
+    console.log("Generated logo.svg");
+  } catch (error) {
+    console.error("Error during prompt:", error);
+  }
 }
 
 // Export for testing

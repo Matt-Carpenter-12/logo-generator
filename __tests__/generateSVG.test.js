@@ -1,4 +1,4 @@
-const { generateSVG } = require("../index"); // Adjust path if necessary
+const { generateSVG } = require("../index.js"); // Adjust path if necessary
 
 describe("generateSVG", () => {
   it("should generate a valid SVG for a circle", () => {
