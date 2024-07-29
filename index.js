@@ -65,3 +65,4 @@ inquirer.prompt(questions).then((answers) => {
   fs.writeFileSync("logo.svg", svgContent, "utf8");
   console.log("Generated logo.svg");
 });
+module.exports = { generateSVG };
